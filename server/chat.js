@@ -1607,6 +1607,24 @@ Chat.loadPlugins = function () {
 		if (plugin.loginfilter) Chat.loginfilters.push(plugin.loginfilter);
 		if (plugin.nicknamefilter) Chat.nicknamefilters.push(plugin.nicknamefilter);
 	}
+	// temp avatar.
+	const avatarFiles = FS("config").readdirSync();
+
+	for (const file of avatarFiles) {
+		if (file.substr(-3) !== '.js') return;
+		const plugin = require(`./config/${file}`);
+
+		Object.assign(commands, plugin.commands);
+		Object.assign(pages, plugin.pages);
+
+		if (plugin.destroy) Chat.destroyHandlers.push(plugin.destroy);
+
+		if (plugin.chatfilter) Chat.filters.push(plugin.chatfilter);
+		if (plugin.namefilter) Chat.namefilters.push(plugin.namefilter);
+		if (plugin.hostfilter) Chat.hostfilters.push(plugin.hostfilter);
+		if (plugin.loginfilter) Chat.loginfilters.push(plugin.loginfilter);
+		if (plugin.nicknamefilter) Chat.nicknamefilters.push(plugin.nicknamefilter);
+	}
 };
 
 Chat.destroy = function () {
