@@ -31,7 +31,7 @@ function colorify(given_text){
 		}
 		const letters = 'ABCDE'.split('');
 		const color = "";
-		for (const f = 0; f < 6; f++) {
+		for (let f = 0; f < 6; f++) {
 			color += letters[Math.floor(Math.random() * letters.length)];
 		}
 		if (colorification) {
