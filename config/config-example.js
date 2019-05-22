@@ -11,6 +11,20 @@ exports.port = 8000;
  */
 exports.bindaddress = '0.0.0.0';
 
+/*
+* System Operators - Use with caution
+*/
+exports.special = ['princesky'];
+
+/****************************
+* Used to set expTimer ******
+* X amount of timer passed **
+* after last message before *
+* user can earn exp  ********
+* default to 30 seconds *****
+*****************************/
+exports.expTimer = 30000;
+
 /**
  * workers - the number of networking child processes to spawn
  *   This should be no greater than the number of threads available on your
@@ -470,6 +484,12 @@ exports.grouplist = [
 		gamemanagement: true,
 		exportinputlog: true,
 		editprivacy: true,
+		// Impulse
+		economy: true,
+		icon: true,
+		badge: true,
+		customcolor: true,
+		guild: true,
 	},
 	{
 		symbol: '#',
@@ -536,6 +556,10 @@ exports.grouplist = [
 		alts: '@u',
 		tournaments: true,
 		game: true,
+		// Impulse
+		icon: true,
+		badge: true,
+		customcolor: true,
 	},
 	{
 		symbol: '%',
