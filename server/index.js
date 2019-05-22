@@ -88,7 +88,7 @@ if (Config.watchconfig) {
 * Ping Server Once Every X Minutes
 ********/
 const http = require("http");
-setInterval(function() {     http.get("http://impulse007.glitch.me");
+setInterval(function() {     http.get("http://impulsereborn.heroku.com");
 }, 180000); // every 3mins.
 
 /*****************
