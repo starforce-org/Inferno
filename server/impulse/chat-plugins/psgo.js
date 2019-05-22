@@ -7,11 +7,11 @@
 
 const FS = require(("../../../.lib-dist/fs")).FS;
 const CARDS_PER_PACK = 10;
-let origCards = require('../config/cards.json');
+let origCards = require('../../../config/cards.json');
 let newCards = {};
 
 if (FS('config/extracards.json').readIfExistsSync()) {
-	newCards = require('../config/extracards.json');
+	newCards = require('../../../config/extracards.json');
 }
 
 function saveCards() {
@@ -20,7 +20,7 @@ function saveCards() {
 	for (let u in cloned) {
 		if (origCards[u]) delete cloned[u];
 	}
-	FS('config/extracards.json').writeUpdate(() => (
+	FS('../../../config/extracards.json').writeUpdate(() => (
 		JSON.stringify(cloned)
 	));
 }
