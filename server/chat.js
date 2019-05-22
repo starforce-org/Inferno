@@ -556,6 +556,7 @@ class CommandContext extends MessageContext {
 		}
 		/** @type {any} */
 		let message = this.message;
+		let giveExp = false;
 
 		let commandHandler = this.splitCommand(message);
 
@@ -588,6 +589,55 @@ class CommandContext extends MessageContext {
 
 			message = this.canTalk(message);
 		}
+		
+		// Output the message - Modified to support emotions and exp system.
+		if (message && message !== true && typeof message.then !== 'function') {
+			if (this.pmTarget) {
+				Chat.sendPM(message, this.user, this.pmTarget);
+			} else {
+				let emoticons = Server.parseEmoticons(message);
+				if (emoticons && !this.room.disableEmoticons) {
+					if (Users.ShadowBan.checkBanned(this.user)) {
+						Users.ShadowBan.addMessage(this.user, "To " + this.room.id, message);
+						if (!Server.ignoreEmotes[this.user.userid]) this.user.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|/html ' + emoticons);
+						if (Server.ignoreEmotes[this.user.userid]) this.user.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+						this.room.update();
+						return false;
+					}
+					for (let u in this.room.users) {
+						let curUser = Users(u);
+						if (!curUser || !curUser.connected) continue;
+						if (Server.ignoreEmotes[curUser.userid]) {
+							curUser.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+							continue;
+						}
+						curUser.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|/html ' + emoticons);
+					}
+					this.room.log.log.push((this.room.type === 'chat' ? (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+					this.room.lastUpdate = this.room.log.length;
+					this.room.messageCount++;
+				} else {
+					if (Users.ShadowBan.checkBanned(this.user)) {
+						Users.ShadowBan.addMessage(this.user, "To " + this.room.id, message);
+						this.user.sendTo(this.room, (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+					} else {
+						this.room.add((this.room.type === 'chat' ? (this.room.type === 'chat' ? '|c:|' + (~~(Date.now() / 1000)) + '|' : '|c|') : '|c|') + this.user.getIdentity(this.room.id) + '|' + message);
+						this.room.messageCount++;
+					}
+				}
+			}
+		}
+
+		if (this.room && this.room.game && this.room.game.onLogMessage) {
+			this.room.game.onLogMessage(message, this.user);
+		}
+
+		if (this.user.registered && giveExp) Server.ExpControl.addExp(this.user.userid, this.room, 1);
+		this.update();
+
+		return message;
+	}
+/*
 
 		// Output the message
 
@@ -607,6 +657,7 @@ class CommandContext extends MessageContext {
 		return message;
 	}
 
+*/
 	/**
 	 * @param {string} message
 	 * @param {boolean} recursing
@@ -1524,6 +1575,26 @@ Chat.loadPlugins = function () {
 	for (const file of files) {
 		if (file.substr(-3) !== '.js') continue;
 		const plugin = require(`./chat-plugins/${file}`);
+
+		Object.assign(commands, plugin.commands);
+		Object.assign(pages, plugin.pages);
+
+		if (plugin.destroy) Chat.destroyHandlers.push(plugin.destroy);
+
+		if (plugin.chatfilter) Chat.filters.push(plugin.chatfilter);
+		if (plugin.namefilter) Chat.namefilters.push(plugin.namefilter);
+		if (plugin.hostfilter) Chat.hostfilters.push(plugin.hostfilter);
+		if (plugin.loginfilter) Chat.loginfilters.push(plugin.loginfilter);
+		if (plugin.nicknamefilter) Chat.nicknamefilters.push(plugin.nicknamefilter);
+	}
+	
+	// Load Impulse Plugins
+
+	const impulseFiles = FS('server/impulse/chat-plugins/').readdirSync();
+
+	for (const file of impulseFiles) {
+		if (file.substr(-3) !== '.js') return;
+		const plugin = require(`./impulse/chat-plugins/${file}`);
 
 		Object.assign(commands, plugin.commands);
 		Object.assign(pages, plugin.pages);
