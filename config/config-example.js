@@ -16,6 +16,10 @@ exports.bindaddress = '0.0.0.0';
 */
 exports.special = ['princesky'];
 
+/*
+* X amount of players needer to earn rewards from tournaments.
+*/
+exports.sizeRequiredToEarn = 4;
 /****************************
 * Used to set expTimer ******
 * X amount of timer passed **
