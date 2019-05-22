@@ -9,7 +9,7 @@ Server.urlify = urlify;
 
 const nightclub = new Object();
 
-colorify: function(given_text){
+function colorify(given_text){
 	const sofar = "";
 	const splitting = given_text.split("");
 	const text_length = given_text.length;
@@ -41,6 +41,7 @@ colorify: function(given_text){
 	}
 	return sofar;
 }
+Server.colorify = colorify;
  
 function colorify_absolute(given_text){
 	const sofar = "";
