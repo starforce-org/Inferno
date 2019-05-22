@@ -29,8 +29,8 @@ function colorify(given_text){
 			colorification = true;
 			beginningofend = false;
 		}
-		const letters = 'ABCDE'.split('');
-		const color = "";
+		let letters = 'ABCDE'.split('');
+		let color = "";
 		for (let f = 0; f < 6; f++) {
 			color += letters[Math.floor(Math.random() * letters.length)];
 		}
@@ -44,11 +44,11 @@ function colorify(given_text){
 Server.colorify = colorify;
  
 function colorify_absolute(given_text){
-	const sofar = "";
-	const splitting = given_text.split("");
-	const text_length = given_text.length;
+	let sofar = "";
+	let splitting = given_text.split("");
+	let text_length = given_text.length;
 	for (i = 0; i < text_length; i++) {
-		const color = (Math.random()*(0xFFFFFF+1)<<0).toString(16);
+		let color = (Math.random()*(0xFFFFFF+1)<<0).toString(16);
 		if (splitting[i] == " ") sofar += " "; else sofar += "<font color='" + "#" + color + "'>" + splitting[i] + "</font>";
 	}
 	return sofar;
