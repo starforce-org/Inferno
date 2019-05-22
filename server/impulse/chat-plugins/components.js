@@ -28,7 +28,7 @@ exports.Server = {
 	// usage: Server.messageSeniorStaff('Mystifi is a confirmed user and they were banned from a public room. Assess the situation immediately.', '~Server')
 	//
 	// this makes a PM from ~Server stating the message
-	
+
 	rankLadder: function (title, type, array, prop, group) {
 	let groupHeader = group || 'Username';
 	const ladderTitle = '<center><h4><u>' + title + '</u></h4></center>';
@@ -66,7 +66,17 @@ exports.Server = {
 	}
 	return ladderTitle + tableTop + tableRows + tableBottom;
 	}, 
-
+	
+	randomString: function (length) {
+		return Math.round((Math.pow(36, length + 1) - Math.random() * Math.pow(36, length))).toString(36).slice(1);
+	},
+	
+	reloadCSS: function () {
+		const cssPath = 'impulse '; // This should be the serverid if Config.serverid doesn't exist. Ex: 'serverid'
+		let req = https.get('https://play.pokemonshowdown.com/customcss.php?server=' + (Config.serverid || cssPath), () => {});
+		req.end();
+	},
+	
 	regdate: function (target, callback) {
 		target = toID(target);
 		if (regdateCache[target]) return callback(regdateCache[target]);
