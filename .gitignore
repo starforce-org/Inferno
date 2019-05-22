@@ -1,6 +1,5 @@
 /config/*
 !/config/formats.js
-/logs/*
 /node_modules
 /eslint-cache
 /server/chat-plugins/private.js
