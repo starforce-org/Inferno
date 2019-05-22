@@ -84,6 +84,33 @@ if (Config.watchconfig) {
 	});
 }
 
+/*********
+* Ping Server Once Every X Minutes
+********/
+const http = require("http");
+setInterval(function() {     http.get("http://impulse007.glitch.me");
+}, 180000); // every 3mins.
+
+/*****************
+* Custom Globals *
+******************/ 
+global.Server = {};
+global.Server = require('../server/impulse/chat-plugins/components.js').Server; 
+// Store Data Locally
+const nef = require('nef');
+const nefFs = require('nef-fs');
+global.Db = nef(nefFs('./server/impulse/database')); 
+// Store Data In Cloud Storage ( MongoDB ).
+// Disable Local Storage While Using Cloud Storage 
+//global.Db = require('nef')(require('nef-mongo')('MONGODB-URL')); 
+// Sqlite3 For Storing Regions Data
+global.sqlite3 = require('sqlite3'); 
+// Required for OnTime to work properly
+global.Ontime = {}; 
+/*********************
+* Custom Globals End *
+**********************/
+
 /*********************************************************
  * Set up most of our globals
  *********************************************************/
