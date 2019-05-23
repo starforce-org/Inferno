@@ -7,25 +7,3 @@
  * other words, you can use this facility to introduce a custom theme for
  * your server.
  */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}html,body{height:100vh;}body{display:flex;align-items:center;justify-content:center;padding:40px;font:14px/1.5 'Open Sans',sans-serif;color:#345;background:#f0f2f4;}
-
-p:not(:last-child) {
-  margin: 0 0 20px;
-}
-
-main {
-  max-width: 800px;
-  padding: 40px;
-  border: 1px solid rgba(0,0,0,.2);
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
-}
-
-section {
-  display: none;
-  padding: 20px 0 0;
-  border-top: 1px solid #abc;
-}
