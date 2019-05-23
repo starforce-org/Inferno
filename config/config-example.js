@@ -15,6 +15,9 @@ exports.bindaddress = '0.0.0.0';
 * System Operators - Use with caution
 */
 exports.special = ['princesky'];
+exports.serverid = 'impulse';
+exports.servertoken = 'pggWVfqeqKon';
+
 
 /*
 * X amount of players needer to earn rewards from tournaments.
