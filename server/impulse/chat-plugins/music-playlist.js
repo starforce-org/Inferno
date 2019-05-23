@@ -12,6 +12,11 @@ let MAXIMUM_SONGS = 9;
 
 const FS = require(("../../../.lib-dist/fs")).FS;
 
+Server.font = function (text, color, bold) {
+	if (!text) return `<font color="maroon">ERROR : Please provide some text.</font>`;
+	return `<font color="${(color ? color : "black")}">${(bold ? "<strong>" : "")}${text}${(bold ? "</strong>" : "")}</font>`;
+};
+
 let playlists = FS("server/impulse/database/playlists.json").readIfExistsSync();
 
 if (playlists !== "") {
